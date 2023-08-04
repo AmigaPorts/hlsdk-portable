@@ -103,11 +103,20 @@ def build(bld):
 	else:
 		install_path = bld.env.PREFIX
 
-	bld.shlib(
+	is_cxx_link = False
+
+	library = 'cshlib' if is_cxx_link else 'cxxshlib'
+
+	if bld.env.DEST_OS == 'amiga':
+		library = 'cstlib' if is_cxx_link else 'cxxstlib'
+
+	features = ['c', 'cxx', library]
+
+	bld(
 		source   = source,
 		target   = 'client' + bld.env.POSTFIX,
 		name     = 'client',
-		features = 'c cxx',
+		features = features,
 		includes = includes,
 		defines  = defines,
 		use      = libs,

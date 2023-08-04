@@ -58,7 +58,6 @@ def configure(conf):
 	conf.load('msvs msdev subproject clang_compilation_database strip_on_install enforce_pic')
 
 	enforce_pic = True # modern defaults
-	conf.check_pic(enforce_pic)
 
 	# We restrict 64-bit builds ONLY for Win/Linux/OSX running on Intel architecture
 	# Because compatibility with original GoldSrc
@@ -87,6 +86,13 @@ def configure(conf):
 		conf.env.append_unique('CXXFLAGS_cxxshlib', ['-fPIC', '-fno-use-cxa-atexit'])
 		conf.env.append_unique('LINKFLAGS_cshlib', ['-nostdlib', '-Wl,--unresolved-symbols=ignore-all'])
 		conf.env.append_unique('LINKFLAGS_cxxshlib', ['-nostdlib', '-Wl,--unresolved-symbols=ignore-all'])
+	elif conf.env.DEST_OS == 'amiga':
+		conf.msg(msg='-> AMIGA!', result='...', color='BLUE')
+		enforce_pic = False
+		conf.env.append_unique('CFLAGS', ['-m68040','-mhard-float','-fbbb=-'])
+		conf.env.append_unique('CXXFLAGS', ['-m68040','-mhard-float','-fbbb=-'])
+		conf.env.append_unique('LINKFLAGS_cstlib', ['-nostdlib', '-Wl,--unresolved-symbols=ignore-all'])
+		conf.env.append_unique('LINKFLAGS_cxxstlib', ['-nostdlib', '-Wl,--unresolved-symbols=ignore-all'])
 	# check if we need to use irix linkflags
 	elif conf.env.DEST_OS == 'irix' and conf.env.COMPILER_CC == 'gcc':
 		linkflags.remove('-Wl,--no-undefined')
@@ -94,6 +100,8 @@ def configure(conf):
 		# check if we're in a sgug environment
 		if 'sgug' in os.environ['LD_LIBRARYN32_PATH']:
 			linkflags.append('-lc')
+
+	conf.check_pic(enforce_pic)
 
 	conf.check_cc(cflags=cflags, linkflags=linkflags, msg='Checking for required C flags')
 	conf.check_cxx(cxxflags=cxxflags, linkflags=linkflags, msg='Checking for required C++ flags')

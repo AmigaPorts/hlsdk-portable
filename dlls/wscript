@@ -44,12 +44,20 @@ def build(bld):
 		install_path = os.path.join(bld.env.GAMEDIR, bld.env.SERVER_INSTALL_DIR)
 	else:
 		install_path = bld.env.PREFIX
+	is_cxx_link = False
 
-	bld.shlib(
+	library = 'cshlib' if is_cxx_link else 'cxxshlib'
+
+	if bld.env.DEST_OS == 'amiga':
+		library = 'cstlib' if is_cxx_link else 'cxxstlib'
+
+	features = ['c', 'cxx', library]
+
+	bld(
 		source   = source,
 		target   = bld.env.SERVER_LIBRARY_NAME + bld.env.POSTFIX,
+		features = features,
 		name     = 'server',
-		features = 'c cxx',
 		includes = includes,
 		defines  = defines,
 		install_path = install_path,

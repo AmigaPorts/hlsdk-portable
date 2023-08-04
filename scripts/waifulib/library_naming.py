@@ -61,6 +61,8 @@ DEFINES = [
 'XASH_X86',
 'XASH_NSWITCH',
 'XASH_PSVITA',
+'XASH_AMIGA',
+'XASH_M68K',
 ]
 
 def configure(conf):
@@ -92,6 +94,8 @@ def configure(conf):
 		buildos = "dos4gw" # unused, just in case
 	elif conf.env.XASH_HAIKU:
 		buildos = "haiku"
+	elif conf.env.XASH_AMIGA:
+		buildos = "amiga"
 	elif conf.env.XASH_SERENITY:
 		buildos = "serenityos"
 	elif conf.env.XASH_NSWITCH:
@@ -153,6 +157,8 @@ def configure(conf):
 		buildarch = "javascript"
 	elif conf.env.XASH_E2K:
 		buildarch = "e2k"
+	elif conf.env.XASH_M68K:
+		buildarch = "m68k"
 	elif conf.env.XASH_PPC:
 		buildarch = "ppc"
 		if conf.env.XASH_64BIT:
