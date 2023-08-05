@@ -86,6 +86,11 @@ def build(bld):
 		'dlls/tripmine.cpp'
 	])
 
+	if bld.env.DEST_OS == 'amiga':
+		source += bld.path.parent.ant_glob([
+			'os_specific/amiga/main.c'
+		])
+
 
 	if bld.env.DEST_OS == 'win32':
 		libs += ['USER32']
@@ -108,7 +113,8 @@ def build(bld):
 	library = 'cshlib' if is_cxx_link else 'cxxshlib'
 
 	if bld.env.DEST_OS == 'amiga':
-		library = 'cstlib' if is_cxx_link else 'cxxstlib'
+		library = 'cprogram' if is_cxx_link else 'cxxprogram'
+		bld.env.POSTFIX = ".so"
 
 	features = ['c', 'cxx', library]
 

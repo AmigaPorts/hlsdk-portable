@@ -40,6 +40,11 @@ def build(bld):
 		'../public'
 	]
 
+	if bld.env.DEST_OS == 'amiga':
+		source += bld.path.parent.ant_glob([
+			'os_specific/amiga/main.c'
+		])
+
 	if bld.env.DEST_OS not in ['android', 'dos']:
 		install_path = os.path.join(bld.env.GAMEDIR, bld.env.SERVER_INSTALL_DIR)
 	else:
@@ -49,7 +54,8 @@ def build(bld):
 	library = 'cshlib' if is_cxx_link else 'cxxshlib'
 
 	if bld.env.DEST_OS == 'amiga':
-		library = 'cstlib' if is_cxx_link else 'cxxstlib'
+		library = 'cprogram' if is_cxx_link else 'cxxprogram'
+		bld.env.POSTFIX = ".so"
 
 	features = ['c', 'cxx', library]
 

@@ -89,10 +89,9 @@ def configure(conf):
 	elif conf.env.DEST_OS == 'amiga':
 		conf.msg(msg='-> AMIGA!', result='...', color='BLUE')
 		enforce_pic = False
-		conf.env.append_unique('CFLAGS', ['-m68040','-mhard-float','-fbbb=-'])
-		conf.env.append_unique('CXXFLAGS', ['-m68040','-mhard-float','-fbbb=-'])
-		conf.env.append_unique('LINKFLAGS_cstlib', ['-nostdlib', '-Wl,--unresolved-symbols=ignore-all'])
-		conf.env.append_unique('LINKFLAGS_cxxstlib', ['-nostdlib', '-Wl,--unresolved-symbols=ignore-all'])
+		conf.env.append_unique('CFLAGS', ['-noixemul','-m68040','-mhard-float','-fbbb=-'])
+		conf.env.append_unique('CXXFLAGS', ['-noixemul','-m68040','-mhard-float','-fbbb=-'])
+		linkflags.append('-noixemul')
 	# check if we need to use irix linkflags
 	elif conf.env.DEST_OS == 'irix' and conf.env.COMPILER_CC == 'gcc':
 		linkflags.remove('-Wl,--no-undefined')
