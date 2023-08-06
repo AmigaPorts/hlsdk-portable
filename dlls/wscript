@@ -55,7 +55,7 @@ def build(bld):
 
 	if bld.env.DEST_OS == 'amiga':
 		library = 'cprogram' if is_cxx_link else 'cxxprogram'
-		bld.env.POSTFIX = ".so"
+		bld.env.POSTFIX += ".so"
 
 	features = ['c', 'cxx', library]
 

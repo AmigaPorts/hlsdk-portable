@@ -24,8 +24,9 @@ SPRITE MODELS
 .spr extended version (Half-Life compatible sprites with some Xash3D extensions)
 ==============================================================================
 */
+#include "x_byteswap.h"
 
-#define IDSPRITEHEADER	(('P'<<24)+('S'<<16)+('D'<<8)+'I')	// little-endian "IDSP"
+#define IDSPRITEHEADER	BYTE_SWAP_INT32(('P'<<24)+('S'<<16)+('D'<<8)+'I')	// little-endian "IDSP"
 #define SPRITE_VERSION	2				// Half-Life sprites
 
 #if !defined(SYNCTYPE_T)
